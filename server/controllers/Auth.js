@@ -115,7 +115,7 @@ exports.sendOtp = async (req, res) => {
 
     await OTP.create({ email, otp });
 
-    await mailsender(
+     mailsender(
       email,
       "StudyNotion email verification code",
       `
