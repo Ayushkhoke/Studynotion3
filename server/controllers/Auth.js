@@ -11,79 +11,139 @@ require('dotenv').config();
 
 
 //otp send
-exports.sendOtp = async (req, res) => {
+// exports.sendOtp = async (req, res) => {
 
-    //fetch email feom req boody
+//     //fetch email feom req boody
+//     const { email } = req.body;
+
+//     //check user idf already ec=xist 
+//     const checkuserpresent = await User.findOne({ email });
+//     try {
+//         if (checkuserpresent) {
+//             return res.status(401).json({
+//                 success: false,
+//                 message: "user already register",
+//             });
+//         }
+
+//         //generate otp
+//         var otp = otpgenrator.generate(6, {
+//             upperCaseAlphabets: false,
+//             lowerCaseAlphabets: false,
+//             specialChars: false,
+//         });
+//         console.log("otp generated ", otp);
+
+//         //check unique otp or not
+//         const result = await OTP.findOne({ otp: otp });
+
+//         while (result) {
+//             otp = otpgenrator.generate(6, {
+//                 upperCaseAlphabets: false,
+//                 lowerCaseAlphabets: false,
+//                 specialChars: false,
+//             });
+//             result = await OTP.findOne({ otp: otp });
+//         }
+
+//         const otppayload = { email, otp };
+//         // create an entry in db
+
+//         const otpbody = await OTP.create(otppayload);
+//         console.log(otpbody);
+//         //send otp email to the user
+
+//      mailsender(email, "Your OTP", 
+//   `
+//   <h2>Your StudyNotion OTP</h2>
+//   <p>Hello 👋</p>
+//   <p>Your One-Time Password is:</p>
+//   <h1 style="letter-spacing:3px;">${otp}</h1>
+//   <p>This OTP is valid for 5 minutes.</p>
+//   <p>If you didn’t request this, ignore this email.</p>
+//   <br/>
+//   <p>— StudyNotion Team</p>
+//   `)
+//   .then(() => console.log("OTP mail sent"))
+//   .catch(err => console.log("Mail error:", err));
+
+
+//         //return 
+//         res.status(200).json({
+//             success: true,
+//             message: " otp send succesfully",
+//             otp,
+//         })
+
+//     }
+//     catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             success: false,
+//             message: error.message
+//         })
+//     }
+// }
+
+exports.sendOtp = async (req, res) => {
+  try {
     const { email } = req.body;
 
-    //check user idf already ec=xist 
-    const checkuserpresent = await User.findOne({ email });
-    try {
-        if (checkuserpresent) {
-            return res.status(401).json({
-                success: false,
-                message: "user already register",
-            });
-        }
-
-        //generate otp
-        var otp = otpgenrator.generate(6, {
-            upperCaseAlphabets: false,
-            lowerCaseAlphabets: false,
-            specialChars: false,
-        });
-        console.log("otp generated ", otp);
-
-        //check unique otp or not
-        const result = await OTP.findOne({ otp: otp });
-
-        while (result) {
-            otp = otpgenrator.generate(6, {
-                upperCaseAlphabets: false,
-                lowerCaseAlphabets: false,
-                specialChars: false,
-            });
-            result = await OTP.findOne({ otp: otp });
-        }
-
-        const otppayload = { email, otp };
-        // create an entry in db
-
-        const otpbody = await OTP.create(otppayload);
-        console.log(otpbody);
-        //send otp email to the user
-
-     mailsender(email, "Your OTP", 
-  `
-  <h2>Your StudyNotion OTP</h2>
-  <p>Hello 👋</p>
-  <p>Your One-Time Password is:</p>
-  <h1 style="letter-spacing:3px;">${otp}</h1>
-  <p>This OTP is valid for 5 minutes.</p>
-  <p>If you didn’t request this, ignore this email.</p>
-  <br/>
-  <p>— StudyNotion Team</p>
-  `)
-  .then(() => console.log("OTP mail sent"))
-  .catch(err => console.log("Mail error:", err));
-
-
-        //return 
-        res.status(200).json({
-            success: true,
-            message: " otp send succesfully",
-            otp,
-        })
-
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(401).json({
+        success: false,
+        message: "User already registered",
+      });
     }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        })
+
+    let otp = otpgenrator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    let result = await OTP.findOne({ otp });
+    while (result) {
+      otp = otpgenrator.generate(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
+      });
+      result = await OTP.findOne({ otp });
     }
-}
+
+    await OTP.create({ email, otp });
+
+    await mailsender(
+      email,
+      "StudyNotion email verification code",
+      `
+      <h2>Your StudyNotion OTP</h2>
+      <p>Hello 👋</p>
+      <p>Your One-Time Password is:</p>
+      <h1 style="letter-spacing:3px;">${otp}</h1>
+      <p>This OTP is valid for 5 minutes.</p>
+      <p>If you didn’t request this, ignore this email.</p>
+      <br/>
+      <p>— StudyNotion Team</p>
+      `
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send OTP",
+    });
+  }
+};
+
 
 
 
