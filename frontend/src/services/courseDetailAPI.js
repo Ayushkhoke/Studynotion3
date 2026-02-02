@@ -10,7 +10,7 @@ import axios from "axios";
 export const getAllCourses = async (token) => {
   try {
     const res = await axios.get(
-      "https://studynotion3-2-l1yh.onrender.com/api/v1/course/showAllCourses",
+      "https://studynotion3-5.onrender.com/api/v1/course/showAllCourses",
       {
         headers: {
           Authorization: `Bearer ${token}`,
