@@ -1,7 +1,9 @@
 // const BASE_URL = "https://studynotion3-3.onrender.com/api/v1";
 //https://studynotion-online-platform.onrender.com
-const BASE_URL = "https://studynotion3-5.onrender.com/api/v1";
+// https://studynotion3-5.onrender.com
+const BASE_URL = "http://localhost:4000/api/v1";
 export const categories={
+
     CATEGORIES_API:BASE_URL+"/course/showallCategory"
 }
 
@@ -34,6 +36,7 @@ export const course={
       EDIT_COURSE_API: BASE_URL+"/course/editCourse", 
       INSTRUCTOR_COURSES_API: BASE_URL + "/course/instructor-courses",
       DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
+        GET_COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",
 }
 
 export const student = {

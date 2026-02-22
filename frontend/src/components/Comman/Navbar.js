@@ -198,7 +198,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="h-14 bg-black text-white border-b border-gray-600 flex items-center">
+    <div className="h-14 bg-black text-white border-b border-gray-600 flex items-center ">
       <div className="w-11/12 mx-auto flex justify-between items-center">
 
         {/* ================= LOGO ================= */}

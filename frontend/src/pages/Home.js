@@ -355,13 +355,13 @@ import CodeBlock from '../components/core/HomePage/CodeBlocks'
 import TimeLineSection from '../components/core/HomePage/TimeLineSection'
 import LearningLanguageSection from '../components/core/HomePage/LearningLanguageSection'
 import InstructorSection from '../components/core/HomePage/InstructorSection'
-
+import Footer from '../components/Comman/Footer'
 export default function Home() {
   const Banner =
     "https://res.cloudinary.com/dqojeedmu/video/upload/v1766492634/codehelp/epb7wkv0e33hai6hmalc.mp4";
 
   return (
-    <div className="bg-black overflow-x-hidden">
+    <div className="bg-black overflow-x-hidden ">
       <div className="relative mx-auto flex flex-col w-11/12 items-center text-white">
 
         {/* Become Instructor */}
@@ -463,6 +463,8 @@ export default function Home() {
           Review from other learners
         </h2>
       </div>
+
+      <Footer/>
     </div>
   )
 }

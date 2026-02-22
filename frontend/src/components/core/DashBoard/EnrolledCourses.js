@@ -73,68 +73,68 @@
 // }
 
 
-import React, { useEffect, useState } from "react";
-import ProgressBar from "@ramonak/react-progress-bar";
-import { useSelector } from "react-redux";
-import { getEnrolledCourses } from "../../../services/profileAPI";
+// import React, { useEffect, useState } from "react";
+// import ProgressBar from "@ramonak/react-progress-bar";
+// import { useSelector } from "react-redux";
+// import { getEnrolledCourses } from "../../../services/profileAPI";
 
-export default function EnrolledCourses() {
-  const { token } = useSelector((state) => state.auth);
-  const [enrolledCourses, setEnrolledCourses] = useState(null);
+// export default function EnrolledCourses() {
+//   const { token } = useSelector((state) => state.auth);
+//   const [enrolledCourses, setEnrolledCourses] = useState(null);
 
-  const loadEnrolledCourses = async () => {
-    try {
-      const res = await getEnrolledCourses(token);
-      setEnrolledCourses(res);
-    } catch (error) {
-      console.log("Unable to fetch enrolled courses");
-      setEnrolledCourses([]);
-    }
-  };
+//   const loadEnrolledCourses = async () => {
+//     try {
+//       const res = await getEnrolledCourses(token);
+//       setEnrolledCourses(res);
+//     } catch (error) {
+//       console.log("Unable to fetch enrolled courses");
+//       setEnrolledCourses([]);
+//     }
+//   };
 
-  useEffect(() => {
-    if (token) loadEnrolledCourses();
-  }, [token]);
+//   useEffect(() => {
+//     if (token) loadEnrolledCourses();
+//   }, [token]);
 
-  return (
-    <div className="p-6 text-white">
-      <h2 className="text-2xl font-bold mb-4">Enrolled Courses</h2>
+//   return (
+//     <div className="p-6 text-white">
+//       <h2 className="text-2xl font-bold mb-4">Enrolled Courses</h2>
 
-      {enrolledCourses === null && <p>Loading...</p>}
+//       {enrolledCourses === null && <p>Loading...</p>}
 
-      {enrolledCourses !== null && enrolledCourses.length === 0 && (
-        <p>You have not enrolled in any courses yet</p>
-      )}
+//       {enrolledCourses !== null && enrolledCourses.length === 0 && (
+//         <p>You have not enrolled in any courses yet</p>
+//       )}
 
-      {enrolledCourses?.map((course) => (
-        <div key={course._id} className="mb-6 bg-gray-900 p-4 rounded-xl">
-          <div className="flex gap-4">
-            <img
-              src={course.thumbnail}
-              alt={course.courseName}
-              className="w-40 h-24 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <p className="text-lg font-semibold">{course.courseName}</p>
-              <p className="text-sm text-gray-400">
-                {course.courseDescription}
-              </p>
+//       {enrolledCourses?.map((course) => (
+//         <div key={course._id} className="mb-6 bg-gray-900 p-4 rounded-xl">
+//           <div className="flex gap-4">
+//             <img
+//               src={course.thumbnail}
+//               alt={course.courseName}
+//               className="w-40 h-24 rounded-lg object-cover"
+//             />
+//             <div className="flex-1">
+//               <p className="text-lg font-semibold">{course.courseName}</p>
+//               <p className="text-sm text-gray-400">
+//                 {course.courseDescription}
+//               </p>
 
-              <div className="mt-3">
-                <p>Progress: {course.progressPercentage || 0}%</p>
-                <ProgressBar
-                  completed={course.progressPercentage || 0}
-                  height="8px"
-                  isLabelVisible={false}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+//               <div className="mt-3">
+//                 <p>Progress: {course.progressPercentage || 0}%</p>
+//                 <ProgressBar
+//                   completed={course.progressPercentage || 0}
+//                   height="8px"
+//                   isLabelVisible={false}
+//                 />
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
 
 
 // import React, { useEffect, useState } from "react";
@@ -196,3 +196,79 @@ export default function EnrolledCourses() {
 //   );
 // }
 
+import React, { useEffect, useState } from "react";
+import ProgressBar from "@ramonak/react-progress-bar";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getEnrolledCourses } from "../../../services/profileAPI";
+
+export default function EnrolledCourses() {
+  const { token } = useSelector((state) => state.auth);
+  const [enrolledCourses, setEnrolledCourses] = useState(null);
+  const navigate = useNavigate();
+
+  const loadEnrolledCourses = async () => {
+    try {
+      const res = await getEnrolledCourses(token);
+      setEnrolledCourses(res);
+    } catch (error) {
+      console.log("Unable to fetch enrolled courses");
+      setEnrolledCourses([]);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      loadEnrolledCourses();
+    }
+  }, [token]);
+
+  return (
+    <div className="p-6 text-white">
+      <h2 className="text-2xl font-bold mb-6">Enrolled Courses</h2>
+
+      {/* Loading */}
+      {enrolledCourses === null && <p>Loading...</p>}
+
+      {/* No courses */}
+      {enrolledCourses !== null && enrolledCourses.length === 0 && (
+        <p>You have not enrolled in any courses yet</p>
+      )}
+
+      {/* Course cards */}
+      {enrolledCourses?.map((course) => (
+        <div
+          key={course._id}
+          className="mb-6 bg-gray-900 p-4 rounded-xl cursor-pointer hover:bg-gray-800 transition"
+          onClick={() => navigate(`/course/${course._id}`)}
+        >
+          <div className="flex gap-4">
+            <img
+              src={course.thumbnail}
+              alt={course.courseName}
+              className="w-40 h-24 rounded-lg object-cover"
+            />
+
+            <div className="flex-1">
+              <p className="text-lg font-semibold">{course.courseName}</p>
+              <p className="text-sm text-gray-400">
+                {course.courseDescription}
+              </p>
+
+              <div className="mt-3">
+                <p className="text-sm mb-1">
+                  Progress: {course.progressPercentage || 0}%
+                </p>
+                <ProgressBar
+                  completed={course.progressPercentage || 0}
+                  height="8px"
+                  isLabelVisible={false}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

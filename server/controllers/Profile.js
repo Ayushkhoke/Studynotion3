@@ -170,32 +170,63 @@ exports.getuserdetails=async(req,res)=>{
 
 
 
-// Fetch enrolled courses for the authenticated user
+// // Fetch enrolled courses for the authenticated user
+// exports.getEnrolledCourses = async (req, res) => {
+//     try {
+//         const userId = req.user.id; // set by your auth middleware
+
+//         const user = await User.findById(userId).populate("courses").exec();
+//         if (!user) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: "User not found"
+//             });
+//         }
+
+//         const enrolledCourses = Array.isArray(user.courses) ? user.courses : [];
+
+//         return res.status(200).json({
+//             success: true,
+//             data: enrolledCourses
+//         });
+
+//     } catch (error) {
+//         console.error("Error fetching enrolled courses:", error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Failed to fetch enrolled courses"
+//         });
+//     }
+// };
+
+
+
+
 exports.getEnrolledCourses = async (req, res) => {
-    try {
-        const userId = req.user.id; // set by your auth middleware
+  try {
+    const userId = req.user.id;
 
-        const user = await User.findById(userId).populate("courses").exec();
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found"
-            });
-        }
+    const user = await User.findById(userId)
+      .populate("courses")
+      .exec();
 
-        const enrolledCourses = Array.isArray(user.courses) ? user.courses : [];
-
-        return res.status(200).json({
-            success: true,
-            data: enrolledCourses
-        });
-
-    } catch (error) {
-        console.error("Error fetching enrolled courses:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to fetch enrolled courses"
-        });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
-};
 
+    return res.status(200).json({
+      success: true,
+      data: user.courses || [],
+    });
+
+  } catch (error) {
+    console.error("Error fetching enrolled courses:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch enrolled courses",
+    });
+  }
+};

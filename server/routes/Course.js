@@ -1,7 +1,7 @@
 const express=require("express");
 const router=express.Router();
 
-const {createCourse,getcoursedetails,showallcourses,editCourse ,getInstructorCourses,deleteCourse}=require("../controllers/Course");
+const {createCourse,getcoursedetails,showallcourses,editCourse ,getInstructorCourses,deleteCourse,getFullCourseContent}=require("../controllers/Course");
 
 //categories controllers import
 const{
@@ -46,8 +46,14 @@ router.post("/addSubSection",auth,isInstructor,createSubsection);
 
 
 //
-router.get("/getCourseDetails",getcoursedetails);
-//
+router.post("/getCourseDetails",getcoursedetails);
+//  course content
+// router.get(
+//   "/course/:courseId/content",
+//   auth,
+ 
+//   getFullCourseContent
+// );
 
 
 //geta all registered courses

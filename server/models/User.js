@@ -52,11 +52,11 @@ const userSchema = new mongoose.Schema({
     },
     resetpasswordexpires: {
         type: Date
+    },
+    EnrolledCourses:{
+       type:mongoose.Schema.Types.ObjectId,
+            ref:"CourseProgress",
     }
-    // EnrolledCourses:{
-    //    type:mongoose.Schema.Types.ObjectId,
-    //         ref:"CourseProgress",
-    // }
 
 })
 

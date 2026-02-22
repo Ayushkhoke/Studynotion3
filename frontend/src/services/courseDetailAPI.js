@@ -241,3 +241,24 @@ export const updatesubsection=async(formData,token)=>{
           throw error;
     }
 }
+
+
+
+export const getCoursesVideo = async ({ token, courseId }) => {
+  try {
+    const response = await apiConnector(
+      "POST",
+      course.GET_COURSE_DETAILS_API,
+      { courseId },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    return response?.data?.data; // full course
+  } catch (error) {
+    console.log("GET COURSE VIDEO ERROR:", error);
+    return null;
+  }
+};
+

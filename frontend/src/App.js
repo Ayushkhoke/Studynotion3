@@ -20,6 +20,10 @@ import CourseDetails from './pages/CourseDetails';
 import Coursesall from './components/core/All-Courses/Coursesall';
 import ContactUs from './pages/Contact';
 import MyCourses from './components/core/All-Courses/MyCourse';
+import CoursePlayer from './pages/CoursePlayer'
+import Settings from "./components/core/DashBoard/Settings";
+// import Footer from './components/Comman/Footer'
+import AdminDashboard from './components/core/DashBoard/AdminDashboard';
 function App() {
   return (
     <div className="w-[100vw] v-[100vh] ">
@@ -36,6 +40,13 @@ function App() {
         <Route path="/update-password/:token" element={<UpdatePassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
+
+        <Route path="/course/:courseId" element={
+  <PrivateRoute>
+    <CoursePlayer />
+  </PrivateRoute>
+} />
+
 <Route path="/Contact" element={<ContactUs />} />
 
         <Route path="*" element={<Error />} />
@@ -50,17 +61,22 @@ function App() {
           {/* Nested routes inside dashboard */}
           {/* <Route index element={<MyProfile />} /> default page */}
           <Route path="/dashboard/my-profile" element={<MyProfile />} />
-          {/* <Route path="/dashboard/settings" element={<Settings />} /> */}
+          <Route path="/dashboard/settings" element={<Settings />} />
           <Route path="/dashboard/enrolled-courses" element={<EnrolledCourses />} />
           <Route path="/dashboard/cart" element={<Cart />} />
           <Route path="/dashboard/add-courses" element={<AddCourses />} />
           {/* Add more nested dashboard routes here, e.g., settings */}
             <Route path="/dashboard/all-courses" element={<Coursesall />} />
                       <Route path="/dashboard/my-courses" element={<MyCourses />} />
+                      <Route path="/dashboard/instructor" element={<AdminDashboard />} />
+
+
          </Route>
 
 
       </Routes>
+
+    {/* <Footer/> */}
 
     </div>
   );

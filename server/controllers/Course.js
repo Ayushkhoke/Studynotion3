@@ -175,7 +175,7 @@ exports.getcoursedetails = async (req, res) => {
       // .populate("RatingAndReview")
       .populate({
         path: "courseContent",
-        model: "~Section",
+        model: "Section",
         populate: {
           path: "subSection",
           model: "SubSection",
@@ -271,4 +271,11 @@ exports.deleteCourse = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
 
