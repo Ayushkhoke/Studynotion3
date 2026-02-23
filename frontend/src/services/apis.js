@@ -1,9 +1,9 @@
 // const BASE_URL = "https://studynotion3-3.onrender.com/api/v1";
 //https://studynotion-online-platform.onrender.com
 // https://studynotion3-5.onrender.com
-const BASE_URL = "http://localhost:4000/api/v1";
+// const BASE_URL = "http://localhost:4000/api/v1";
 
-// const BASE_URL = "https://studynotion3-6.onrender.com/api/v1";
+const BASE_URL = "https://studynotion3-6.onrender.com/api/v1";
 export const categories={
 
     CATEGORIES_API:BASE_URL+"/course/showallCategory"
