@@ -105,7 +105,7 @@ exports.sendOtp = async (req, res) => {
 
     let result = await OTP.findOne({ otp });
     while (result) {
-      otp = otpgenrator.generate(6, {
+      otp=otpgenrator.generate(6, {
         upperCaseAlphabets: false,
         lowerCaseAlphabets: false,
         specialChars: false,
@@ -115,7 +115,7 @@ exports.sendOtp = async (req, res) => {
 
     await OTP.create({ email, otp });
 
-     mailsender(
+     await mailsender(
       email,
       "StudyNotion email verification code",
       `

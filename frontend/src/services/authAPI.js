@@ -16,7 +16,7 @@ export function sendOtp(email){
    console.log("otp response",res);
 
    if(!res.data.success){
-    throw new Error(Response.data.message)
+    throw new Error(res.data.message)
    }
    toast.success("Otp send succesfully")
   

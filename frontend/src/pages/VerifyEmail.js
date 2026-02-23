@@ -83,7 +83,7 @@ const VerifyEmail = () => {
                   className="w-12 h-12 sm:w-14 sm:h-14 rounded-md bg-[#020617] border border-gray-700 text-white text-xl text-center focus:outline-none focus:border-yellow-400"
                 />
               )}
-            />
+            /> 
 
             <button
               type="submit"
