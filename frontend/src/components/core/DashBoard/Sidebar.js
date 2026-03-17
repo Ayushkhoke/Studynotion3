@@ -79,6 +79,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModel from "../../Comman/ConfirmationModel";
 import { VscSettingsGear } from "react-icons/vsc";
+import StudynotionLogo from '../../../assets/Studynotionlogo.png';
 
 const Sidebar = () => {
   const { user, loading: profileLoading } = useSelector(
@@ -95,53 +96,65 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="text-white bg-black">
-      <div className="flex min-w-[222px] flex-col border-r h-[calc(100vh-3.5rem)] bg-grey-800 py-6">
-        
-        {/* MAIN LINKS */}
-        <div>
+    <aside className="bg-[#111] text-white flex flex-col justify-between h-[calc(100vh-3.5rem)] border-r border-gray-800 shadow-lg">
+      {/* Top: Brand */}
+      <div className="w-[230px] ">
+        <div className="px-6 py-5 flex items-center gap-3">
+          {user?.image ? (
+            <img src={user.image} alt="profile" className="w-8 h-8 rounded-full border-2 border-yellow-400" />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-lg font-bold border-2 border-yellow-400">
+              {user?.firstName ? user.firstName[0].toUpperCase() : 'U'}
+            </div>
+          )}
+          <span className="text-xl font-bold text-yellow-400 tracking-wide select-none">Studynotion</span>
+        </div>
+        <div className="px-2">
+          {/* Main Links */}
           {sidebarLinks.map((link) => {
             if (link.type && user?.accountType !== link.type) return null;
-
-            return <SidebarLink key={link.id} link={link} />;
+            return <SidebarLink key={link.id} link={link} logo={link.logo} />;
           })}
+          {/* Settings */}
+          <SidebarLink
+            link={{
+              name: "Settings",
+              path: "/dashboard/settings",
+              icon: VscSettingsGear,
+              logo: StudynotionLogo,
+            }}
+          />
         </div>
+      </div>
 
-        {/* DIVIDER */}
-        <div className="mx-auto my-6 h-[1px] w-10/12 bg-grey-600" />
-
-        {/* SETTINGS */}
-        <SidebarLink
-          link={{
-            name: "Settings",
-            path: "/dashboard/settings",
-            icon: VscSettingsGear,
-          }}
-        />
-
-        {/* LOGOUT */}
+      {/* Bottom: Avatar & Sign Out */}
+      <div className="px-6 py-5 border-t border-gray-800 flex items-center gap-3">
+        {/* Avatar */}
+        <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white text-lg font-bold shadow-md">
+          {user?.firstName ? user.firstName[0].toUpperCase() : 'N'}
+        </div>
+        {/* Sign Out Button */}
         <button
           onClick={() =>
             setConfirmationModel({
               text1: "Are You Sure?",
               text2: "You will be logged out of your account",
-              btn1Text: "Logout",
+              btn1Text: "Sign Out",
               btn2Text: "Cancel",
               btn1Handler: () => dispatch(logout(navigate)),
               btn2Handler: () => setConfirmationModel(null),
             })
           }
-          className="mt-4 flex items-center gap-x-2 px-3 py-2 text-sm font-medium text-gray-300"
+          className="text-red-400 font-semibold text-base flex items-center gap-2 hover:text-red-500 transition"
         >
-          <IoIosLogOut />
-          <span>Logout</span>
+          <IoIosLogOut className="text-xl" />
+          <span>Sign Out</span>
         </button>
       </div>
-
       {confirmationModel && (
         <ConfirmationModel modelData={confirmationModel} />
       )}
-    </div>
+    </aside>
   );
 };
 

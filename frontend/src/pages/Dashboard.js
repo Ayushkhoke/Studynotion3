@@ -86,7 +86,7 @@ import Sidebar from "../components/core/DashBoard/Sidebar";
 import { FaBars } from "react-icons/fa";
 
 const Dashboard = () => {
-  const { loading: authloading } = useSelector((state) => state.auth);
+  const { loading: authloading, token } = useSelector((state) => state.auth);
   const { loading: profileloading, user } = useSelector(
     (state) => state.profile
   );
@@ -102,6 +102,7 @@ const Dashboard = () => {
   }
 
   return (
+
     <div className="flex min-h-[calc(100vh-3.5rem)] w-full bg-black overflow-x-hidden">
 
       {/* ================= MOBILE TOP BAR ================= */}
@@ -112,7 +113,14 @@ const Dashboard = () => {
         >
           <FaBars />
         </button>
-        <p className="ml-4 text-white font-semibold">Dashboard</p>
+        <p className="ml-4 text-white font-semibold flex-1">Dashboard</p>
+        {/* Login/Signup buttons for mobile users */}
+        {(!user && token === null) && (
+          <div className="flex gap-2">
+            <a href="/login"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Log in</button></a>
+            <a href="/signup"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Sign up</button></a>
+          </div>
+        )}
       </div>
 
       {/* ================= SIDEBAR ================= */}

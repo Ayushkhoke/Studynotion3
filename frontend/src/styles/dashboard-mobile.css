@@ -1,0 +1,14 @@
+.dashboard-mobile-topbar {
+  top: 56px;
+}
+@media (min-width: 640px) {
+  .dashboard-mobile-topbar {
+    top: 56px;
+  }
+}
+@media (min-width: 1024px) {
+  .dashboard-mobile-topbar {
+    top: 0;
+    position: static !important;
+  }
+}

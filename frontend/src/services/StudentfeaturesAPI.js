@@ -245,6 +245,14 @@ console.log("Order Data:", orderData);
         email: user.email,
       },
 
+      method: {
+        card: true,
+        netbanking: true,
+        upi: false,
+        wallet: false,
+        paylater: false,
+      },
+
       handler: function (response) {
         verifyPayment(
           {

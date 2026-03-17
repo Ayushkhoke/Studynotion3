@@ -51,7 +51,7 @@
 import React from "react";
 import { NavLink, useLocation, matchPath } from "react-router-dom";
 
-export default function SidebarLink({ link }) {
+export default function SidebarLink({ link, logo }) {
   const location = useLocation();
   const Icon = link.icon;
 
@@ -62,13 +62,17 @@ export default function SidebarLink({ link }) {
   return (
     <NavLink
       to={link.path}
-      className={`relative px-3 py-2 text-sm font-medium flex items-center gap-x-2 ${
+      className={`relative px-3 py-2 text-sm font-medium flex items-center gap-x-2 rounded-md transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 ${
         matchRoute(link.path)
           ? "bg-yellow-500 text-black"
-          : "text-white"
+          : "text-white hover:bg-gray-800 hover:text-yellow-400"
       }`}
+      style={{ minHeight: '40px' }}
     >
-      <Icon className="text-lg" />
+      {logo && (
+        <img src={logo} alt="logo" className="w-5 h-5 mr-1" />
+      )}
+      <Icon className="text-xl" />
       <span>{link.name}</span>
     </NavLink>
   );

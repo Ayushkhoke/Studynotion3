@@ -3,8 +3,8 @@ import {
   VscDashboard,
   VscVm,
   VscAdd,
-  VscHistory,
 } from "react-icons/vsc";
+import { FiBookOpen, FiShoppingCart, FiGrid } from "react-icons/fi";
 
 export const ACCOUNT_TYPE = {
   INSTRUCTOR: "Instructor",
@@ -41,22 +41,22 @@ export const sidebarLinks=[
     {
         id:5,
         name:"Enrolled Courses",
-          path:"/dashboard/enrolled-courses",
-          type:ACCOUNT_TYPE.STUDENT,
-            icon:VscHistory,
+        path:"/dashboard/enrolled-courses",
+        type:ACCOUNT_TYPE.STUDENT,
+        icon:FiBookOpen,
     },
-        {
+    {
         id:6,
         name:"Cart",
-          path:"/dashboard/cart",
-          type:ACCOUNT_TYPE.STUDENT,
-            icon:VscHistory,
+        path:"/dashboard/cart",
+        type:ACCOUNT_TYPE.STUDENT,
+        icon:FiShoppingCart,
     },
     {
         id:7,
         name:"all Courses",
-          path:"/dashboard/all-courses",
-          type:ACCOUNT_TYPE.STUDENT,
-            icon:VscHistory,
+        path:"/dashboard/all-courses",
+        type:ACCOUNT_TYPE.STUDENT,
+        icon:FiGrid,
     }
 ]

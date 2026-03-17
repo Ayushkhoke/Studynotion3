@@ -9,14 +9,9 @@ import axios from "axios";
 
 export const getAllCourses = async (token) => {
   try {
-    const res = await axios.get(
-      "https://studynotion3-5.onrender.com/api/v1/course/showAllCourses",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await apiConnector("GET", course.SHOW_ALL_COURSES_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
 
     // ✅ GUARANTEE ARRAY
     return res?.data?.data ?? [];

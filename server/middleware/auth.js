@@ -26,9 +26,14 @@ try{
   req.user=decode;
 }
 catch(error){
-
+    // Handle expired token gracefully
+    if(error.name === 'TokenExpiredError'){
+        return res.status(401).json({
+            success:false,
+            message:"Session expired. Please login again",
+        })
+    }
     
-    console.log(error);
     return res.status(401).json({
         success:false,
         message:"token invalid",

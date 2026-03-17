@@ -15,7 +15,7 @@ type:String,
         trim:true,
 },
     contactNumber:{
-        type:Number,
+        type:String,
         trim:true,
     }
    

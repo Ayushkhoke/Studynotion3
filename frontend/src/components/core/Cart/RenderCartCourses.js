@@ -63,65 +63,56 @@ export default function RenderCartCourses() {
 
   return (
     <div className="flex flex-col gap-6">
-      {cart.map((course) => (
+      {cart.map((course, index) => (
         <div
           key={course._id}
-          className="flex flex-col lg:flex-row gap-6 bg-gray-900 border border-gray-800
-                     rounded-2xl p-5 hover:border-gray-700 transition"
+          className="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black border border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition"
         >
+          {/* Index */}
+          <span className="hidden sm:block text-gray-500 font-bold text-xl">
+            {index + 1}
+          </span>
+
           {/* Thumbnail */}
           <img
             src={course?.thumbnail}
             alt={course?.courseName}
-            className="w-full lg:w-48 h-40 object-cover rounded-xl"
+            className="w-full sm:w-48 h-48 sm:h-32 rounded-xl object-cover border-2 border-yellow-400"
           />
 
-          {/* Course Details */}
-          <div className="flex-1 flex flex-col justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-white">
-                {course?.courseName}
-              </h2>
-
-              <p className="text-sm text-gray-400 mt-1">
-                {course?.category?.name}
-              </p>
-
-              {/* Rating */}
-              <div className="flex items-center gap-3 mt-3">
-                <span className="text-yellow-400 font-semibold">4.8</span>
-
-                <div className="flex gap-1 text-yellow-400">
-                  {[...Array(5)].map((_, i) =>
-                    i < (course?.rating || 4) ? (
-                      <RiStarSFill key={i} />
-                    ) : (
-                      <RiStarSLine key={i} />
-                    )
-                  )}
-                </div>
-
-                <span className="text-sm text-gray-400">
-                  ({course?.ratingAndReview?.length || 0} Ratings)
-                </span>
-              </div>
+          {/* Course Info */}
+          <div className="flex-1 flex flex-col gap-2">
+            <h3 className="text-2xl font-bold text-yellow-300">
+              {course?.courseName}
+            </h3>
+            <p className="text-base text-gray-200 mt-1">
+              {course?.category?.name || "General"}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <span className="bg-yellow-500 text-black px-2 py-1 rounded text-xs font-semibold">In Cart</span>
+              <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-semibold">Top Rated</span>
+              <span className="bg-green-500 text-white px-2 py-1 rounded text-xs font-semibold">Lifetime Access</span>
             </div>
-
-            {/* Price & Action */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-6">
-              <p className="text-xl font-bold text-yellow-400">
-                ₹ {course?.price}
-              </p>
-
-              <button
-                onClick={() => dispatch(removeFromCart(course._id))}
-                className="flex items-center gap-2 text-red-400
-                           hover:text-red-300 transition mt-3 sm:mt-0"
-              >
-                <MdDelete size={20} />
-                <span className="font-medium">Remove</span>
-              </button>
+            <div className="mt-2">
+              <span className="text-sm text-gray-400">Instructor:</span>
+              <span className="ml-2 text-white font-medium">{course.instructorName || "Expert Instructor"}</span>
             </div>
+            <ul className="mt-2 text-xs text-gray-400 list-disc pl-5">
+              <li>Engaging video lectures and quizzes</li>
+              <li>Community support and mentorship</li>
+              <li>Certificate upon completion</li>
+            </ul>
+            <p className="text-yellow-400 font-bold text-xl mt-3">
+              ₹ {course?.price}
+            </p>
+            <p className="text-sm text-gray-300 mt-1">Ready to checkout and start learning!</p>
+            <button
+              onClick={() => dispatch(removeFromCart(course._id))}
+              className="flex items-center gap-2 text-red-400 hover:text-red-300 transition mt-3 font-semibold"
+            >
+              <MdDelete size={20} />
+              <span>Remove</span>
+            </button>
           </div>
         </div>
       ))}

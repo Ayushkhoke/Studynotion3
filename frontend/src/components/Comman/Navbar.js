@@ -176,7 +176,8 @@ import Logo from "../../assets/Studynotionlogo.png"
 import { Link, useLocation, matchPath } from 'react-router-dom'
 import { NavbarLinks } from '../data/navbar-links'
 import { useSelector } from 'react-redux'
-import { FaShoppingCart, FaAngleDown, FaBars, FaTimes } from "react-icons/fa"
+import { FaShoppingCart, FaAngleDown, FaTimes } from "react-icons/fa"
+import LogoIcon from '../../assets/Studynotionlogo.png';
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
 
 export default function Navbar() {
@@ -200,13 +201,20 @@ export default function Navbar() {
   return (
     <div className="h-14 bg-black text-white border-b border-gray-600 flex items-center ">
       <div className="w-11/12 mx-auto flex justify-between items-center">
+        {/* Logo and Hamburger */}
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold text-white tracking-wide">StudyNotion</span>
+        </div>
 
-        {/* ================= LOGO ================= */}
-        <Link to="/">
-          <img src={Logo} width={140} loading="lazy" alt="Logo" />
-        </Link>
+        {/* Mobile Signup/Login */}
+        {token === null && (
+          <div className="flex lg:hidden gap-2">
+            <Link to="/login"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Log in</button></Link>
+            <Link to="/signup"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Sign up</button></Link>
+          </div>
+        )}
 
-        {/* ================= DESKTOP NAV ================= */}
+        {/* Desktop Nav */}
         <nav className="hidden lg:block">
           <ul className="flex gap-x-6">
             {NavbarLinks.map((link, index) => (
@@ -215,24 +223,17 @@ export default function Navbar() {
                   <div className="relative group flex items-center gap-1 cursor-pointer">
                     <p>{link.title}</p>
                     <FaAngleDown />
-
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3
-                                    invisible opacity-0 group-hover:visible group-hover:opacity-100
-                                    bg-white text-black rounded-md p-4 w-48 transition-all">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-white text-black rounded-md p-4 w-48 transition-all">
                       {subLinks.map((sublink, i) => (
                         <Link key={i} to={sublink.link}>
-                          <p className="py-1 hover:text-yellow-500">
-                            {sublink.title}
-                          </p>
+                          <p className="py-1 hover:text-yellow-500">{sublink.title}</p>
                         </Link>
                       ))}
                     </div>
                   </div>
                 ) : (
                   <Link to={link.path}>
-                    <p className={matchroute(link.path) ? "text-yellow-500" : ""}>
-                      {link.title}
-                    </p>
+                    <p className={matchroute(link.path) ? "text-yellow-500" : ""}>{link.title}</p>
                   </Link>
                 )}
               </li>
@@ -240,91 +241,53 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        {/* ================= RIGHT ACTIONS ================= */}
+        {/* Right Actions */}
         <div className="hidden lg:flex gap-x-4 items-center">
-
           {user && user?.accountType !== "Instructor" && (
             <Link to="/dashboard/cart" className="relative">
               <FaShoppingCart />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs rounded-full px-1">
-                  {totalItems}
-                </span>
+                <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs rounded-full px-1">{totalItems}</span>
               )}
             </Link>
           )}
-
           {token === null && (
             <>
-              <Link to="/login">
-                <button className="bg-gray-800 px-3 py-1 rounded-md">
-                  Log in
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button className="bg-gray-800 px-3 py-1 rounded-md">
-                  Sign up
-                </button>
-              </Link>
+              <Link to="/login"><button className="bg-gray-800 px-3 py-1 rounded-md">Log in</button></Link>
+              <Link to="/signup"><button className="bg-gray-800 px-3 py-1 rounded-md">Sign up</button></Link>
             </>
           )}
-
           {token !== null && <ProfileDropDown />}
         </div>
-
-        {/* ================= MOBILE MENU ICON ================= */}
-        <button
-          className="lg:hidden text-xl"
-          onClick={() => setMobileMenu(!mobileMenu)}
-        >
-          {mobileMenu ? <FaTimes /> : <FaBars />}
-        </button>
       </div>
 
-      {/* ================= MOBILE MENU ================= */}
+      {/* Mobile Menu */}
       {mobileMenu && (
-        <div className="absolute top-14 left-0 w-full bg-black text-white
-                        flex flex-col gap-4 px-6 py-6 lg:hidden z-50">
-
-          {NavbarLinks.map((link, index) => (
-            <div key={index}>
-              {link.title === "Catalog" ? (
-                <div>
-                  <p className="font-semibold mb-2">Catalog</p>
-                  {subLinks.map((sublink, i) => (
-                    <Link key={i} to={sublink.link} onClick={() => setMobileMenu(false)}>
-                      <p className="pl-4 py-1 text-gray-300">
-                        {sublink.title}
-                      </p>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <Link to={link.path} onClick={() => setMobileMenu(false)}>
-                  <p className="py-1">{link.title}</p>
-                </Link>
-              )}
-            </div>
-          ))}
-
-          <hr className="border-gray-700" />
-
-          {token === null && (
-            <>
-              <Link to="/login" onClick={() => setMobileMenu(false)}>
-                <button className="w-full bg-gray-800 py-2 rounded-md">
-                  Log in
-                </button>
-              </Link>
-              <Link to="/signup" onClick={() => setMobileMenu(false)}>
-                <button className="w-full bg-gray-800 py-2 rounded-md">
-                  Sign up
-                </button>
-              </Link>
-            </>
-          )}
-
-          {token !== null && <ProfileDropDown />}
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex flex-col items-end z-50">
+          <div className="w-[80vw] max-w-xs h-full bg-black text-white flex flex-col gap-4 px-6 py-6 shadow-xl transition-transform duration-300 transform translate-x-0" style={{ minWidth: '240px' }} onClick={e => e.stopPropagation()}>
+            <button className="self-end text-2xl mb-4" onClick={() => setMobileMenu(false)}><FaTimes /></button>
+            {NavbarLinks.map((link, index) => (
+              <div key={index}>
+                {link.title === "Catalog" ? (
+                  <div>
+                    <p className="font-semibold mb-2">Catalog</p>
+                    {subLinks.map((sublink, i) => (
+                      <Link key={i} to={sublink.link} onClick={() => setMobileMenu(false)}>
+                        <p className="pl-4 py-3 text-lg text-gray-300 hover:text-yellow-500 transition">{sublink.title}</p>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <Link to={link.path} onClick={() => setMobileMenu(false)}>
+                    <p className="py-3 text-lg hover:text-yellow-500 transition">{link.title}</p>
+                  </Link>
+                )}
+              </div>
+            ))}
+            <hr className="border-gray-700 my-4" />
+            {token !== null && <ProfileDropDown />}
+          </div>
+          <div className="flex-1 w-full h-full" onClick={() => setMobileMenu(false)}></div>
         </div>
       )}
     </div>

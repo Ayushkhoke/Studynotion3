@@ -22,7 +22,8 @@ export const resetpassword={
 
 
 export const profile={
-    ENROLLED_COURSES_API:BASE_URL+"/profile/getEnrolledCourses"
+    ENROLLED_COURSES_API:BASE_URL+"/profile/getEnrolledCourses",
+    UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile"
 }
 
 export const course={

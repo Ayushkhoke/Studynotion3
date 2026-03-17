@@ -19,4 +19,8 @@ router.post("/reset-Password-Token",resetpasswordToken)
 router.post("/reset-Password",resetpassword)
 router.post("/contact", contactUs);
 
+// Logout endpoint
+const { logout } = require("../controllers/Auth");
+router.post("/logout", logout);
+
 module.exports=router;
