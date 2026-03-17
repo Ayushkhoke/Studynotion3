@@ -12,8 +12,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "jest",
-    "lint": "eslint .",
-    "prestart": "node ./scripts/checkEnv.js"
+    "lint": "eslint ."
   },
   "keywords": [
     "studynotion",
