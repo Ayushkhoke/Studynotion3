@@ -224,51 +224,46 @@ export default function EnrolledCourses() {
   }, [token]);
 
   return (
-    <div className="p-6 text-white">
-      <h2 className="text-2xl font-bold mb-6">Enrolled Courses</h2>
+      <div className="p-4 text-white max-w-full">
+        <h2 className="text-2xl font-bold mb-4">Enrolled Courses</h2>
 
-      {/* Loading */}
-      {enrolledCourses === null && <p>Loading...</p>}
+        {/* Loading */}
+        {enrolledCourses === null && <p>Loading...</p>}
 
-      {/* No courses */}
-      {enrolledCourses !== null && enrolledCourses.length === 0 && (
-        <p>You have not enrolled in any courses yet</p>
-      )}
+        {/* No courses */}
+        {enrolledCourses !== null && enrolledCourses.length === 0 && (
+          <p>You have not enrolled in any courses yet</p>
+        )}
 
-      {/* Course cards */}
-      {enrolledCourses?.map((course) => (
-        <div
-          key={course._id}
-          className="mb-6 bg-gray-900 p-4 rounded-xl cursor-pointer hover:bg-gray-800 transition"
-          onClick={() => navigate(`/course/${course._id}`)}
-        >
-          <div className="flex gap-4">
-            <img
-              src={course.thumbnail}
-              alt={course.courseName}
-              className="w-40 h-24 rounded-lg object-cover"
-            />
-
-            <div className="flex-1">
-              <p className="text-lg font-semibold">{course.courseName}</p>
-              <p className="text-sm text-gray-400">
-                {course.courseDescription}
-              </p>
-
-              <div className="mt-3">
-                <p className="text-sm mb-1">
-                  Progress: {course.progressPercentage || 0}%
-                </p>
-                <ProgressBar
-                  completed={course.progressPercentage || 0}
-                  height="8px"
-                  isLabelVisible={false}
-                />
+        {/* Course cards */}
+        <div className="flex flex-col gap-4">
+          {enrolledCourses?.map((course) => (
+            <div
+              key={course._id}
+              className="bg-gray-900 p-3 rounded-xl cursor-pointer hover:bg-gray-800 transition flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-md"
+              onClick={() => navigate(`/course/${course._id}`)}
+            >
+              <img
+                src={course.thumbnail}
+                alt={course.courseName}
+                className="w-full sm:w-40 h-24 rounded-lg object-cover mb-2 sm:mb-0"
+              />
+              <div className="flex-1 w-full">
+                <p className="text-base sm:text-lg font-semibold truncate">{course.courseName}</p>
+                <p className="text-xs sm:text-sm text-gray-400 truncate mb-2">{course.courseDescription}</p>
+                <div className="mt-2">
+                  <p className="text-xs sm:text-sm mb-1">Progress: {course.progressPercentage || 0}%</p>
+                  <ProgressBar
+                    completed={course.progressPercentage || 0}
+                    height="8px"
+                    isLabelVisible={false}
+                    className="w-full"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
   );
 }

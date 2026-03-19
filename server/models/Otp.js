@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const mailsender = require('../utils/mailsennder');
+import mongoose from 'mongoose';
+import { sendEmail } from '../utils/mailsennder.js';
 const OtpSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -21,14 +21,12 @@ const OtpSchema = new mongoose.Schema({
 // function to send email
 async function senndverificationemail(email, otp) {
     try {
-        const mailresponse = await mailsender(email, "verification email by study notion", otp);
+        const mailresponse = await sendEmail(email, "verification email by study notion", otp);
         console.log("email send succesfully", mailresponse);
     }
     catch (error) {
         console.log("error ocuuered while sending email", error);
-
     }
-
 }
 
 OtpSchema.pre("save", async function (next) {
@@ -37,4 +35,4 @@ OtpSchema.pre("save", async function (next) {
 })
 
 
-module.exports = mongoose.model("Otp", OtpSchema);
+export default mongoose.model("Otp", OtpSchema);

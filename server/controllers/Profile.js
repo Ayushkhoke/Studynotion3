@@ -1,8 +1,8 @@
 
-const User=require("../models/User");
-const Profile = require("../models/Profile");
-const Course=require("../models/Course")
-exports.updateProfile=async(req,res)=>{
+import User from "../models/User.js";
+import Profile from "../models/Profile.js";
+import Course from "../models/Course.js";
+export async function updateProfile(req, res) {
 try{
    
     console.log("Request User:", req.user);
@@ -90,7 +90,7 @@ return res.status(500).json({
 //how can we schedule this operation deletion
  
 //delete acccount
-exports.deleteaccount=async(req,res)=>{
+export async function deleteaccount(req, res) {
     try{
      //get id
 const id=req.user.id;
@@ -127,7 +127,7 @@ return res.status(200).json({
 
 
 
-exports.getuserdetails=async(req,res)=>{
+export async function getuserdetails(req, res) {
     try{
        
     if ( !req.user.id || !req.user) {
@@ -202,7 +202,7 @@ exports.getuserdetails=async(req,res)=>{
 
 
 
-exports.getEnrolledCourses = async (req, res) => {
+export async function getEnrolledCourses(req, res) {
   try {
     const userId = req.user.id;
 
@@ -216,6 +216,8 @@ exports.getEnrolledCourses = async (req, res) => {
         message: "User not found",
       });
     }
+        // Debug log: print enrolled courses
+        console.log("Enrolled courses for user:", user.courses);
 
     return res.status(200).json({
       success: true,

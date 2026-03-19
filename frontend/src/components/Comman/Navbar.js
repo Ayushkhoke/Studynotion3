@@ -172,6 +172,9 @@
 
 
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../services/authAPI'
 import Logo from "../../assets/Studynotionlogo.png"
 import { Link, useLocation, matchPath } from 'react-router-dom'
 import { NavbarLinks } from '../data/navbar-links'
@@ -181,6 +184,8 @@ import LogoIcon from '../../assets/Studynotionlogo.png';
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.profile)
@@ -207,10 +212,41 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Signup/Login */}
-        {token === null && (
+        {token === null ? (
           <div className="flex lg:hidden gap-2">
             <Link to="/login"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Log in</button></Link>
             <Link to="/signup"><button className="bg-yellow-500 text-black px-3 py-1 rounded-md font-semibold text-sm">Sign up</button></Link>
+          </div>
+        ) : (
+          <div className="flex lg:hidden items-center gap-2 relative">
+            {/* Profile avatar/initials for mobile */}
+            <div
+              className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold border border-yellow-500 object-cover cursor-pointer"
+              onClick={() => setMobileMenu(prev => !prev)}
+            >
+              {user && user.image ? (
+                <img src={user.image} alt="Profile" className="w-8 h-8 rounded-full object-cover" />
+              ) : (
+                user && user.firstName ? user.firstName[0].toUpperCase() : 'U'
+              )}
+            </div>
+            {/* Mobile Profile Dropdown */}
+            {mobileMenu && (
+              <div className="absolute top-10 right-0 bg-[#23272F] rounded-xl shadow-lg w-40 flex flex-col z-50 border border-gray-700">
+                <button
+                  className="py-3 px-5 text-left font-bold text-white hover:bg-gray-800 focus:bg-gray-800 transition-all border-b border-gray-700"
+                  onClick={() => { setMobileMenu(false); navigate('/dashboard/my-profile'); }}
+                >
+                  Dashboard
+                </button>
+                <button
+                  className="py-3 px-5 text-left font-bold text-white hover:bg-gray-800 focus:bg-gray-800 transition-all"
+                  onClick={() => { setMobileMenu(false); dispatch(logout(navigate)); }}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -285,7 +321,32 @@ export default function Navbar() {
               </div>
             ))}
             <hr className="border-gray-700 my-4" />
-            {token !== null && <ProfileDropDown />}
+            {/* Mobile Cart, Dashboard, Logout */}
+            {token !== null && (
+              <>
+                {user && user?.accountType !== "Instructor" && (
+                  <Link to="/dashboard/cart" className="relative flex items-center gap-2 py-3" onClick={() => setMobileMenu(false)}>
+                    <FaShoppingCart className="text-xl" />
+                    <span>Cart</span>
+                    {totalItems > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs rounded-full px-1">{totalItems}</span>
+                    )}
+                  </Link>
+                )}
+                <button
+                  className="w-full text-left font-medium text-lg hover:bg-gray-700 focus:bg-gray-700 focus:outline-none transition-colors duration-200 py-3"
+                  onClick={() => { setMobileMenu(false); navigate('/dashboard/my-profile'); }}
+                >
+                  Dashboard
+                </button>
+                <button
+                  className="w-full text-left font-medium text-lg hover:bg-gray-700 focus:bg-gray-700 focus:outline-none transition-colors duration-200 border-t border-gray-600 py-3"
+                  onClick={() => { setMobileMenu(false); dispatch(logout(navigate)); }}
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
           <div className="flex-1 w-full h-full" onClick={() => setMobileMenu(false)}></div>
         </div>

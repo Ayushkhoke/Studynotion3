@@ -1,5 +1,5 @@
 // Logout controller
-exports.logout = async (req, res) => {
+export const logout = async (req, res) => {
     try {
         res.clearCookie('token');
         return res.status(200).json({
@@ -13,14 +13,14 @@ exports.logout = async (req, res) => {
         });
     }
 };
-const User = require("../models/User");
-const OTP = require('../models/Otp');
-const Profile = require("../models/Profile");
-const otpgenrator = require('otp-generator');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mailsender = require('../utils/mailsennder');
-require('dotenv').config();
+import User from "../models/User.js";
+import OTP from '../models/Otp.js';
+import Profile from "../models/Profile.js";
+import otpgenrator from 'otp-generator';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/mailsennder.js';
+// dotenv config not needed in ES modules if using import
 
 
 
@@ -68,19 +68,8 @@ require('dotenv').config();
 //         console.log(otpbody);
 //         //send otp email to the user
 
-//      mailsender(email, "Your OTP", 
-//   `
-//   <h2>Your StudyNotion OTP</h2>
-//   <p>Hello 👋</p>
-//   <p>Your One-Time Password is:</p>
-//   <h1 style="letter-spacing:3px;">${otp}</h1>
-//   <p>This OTP is valid for 5 minutes.</p>
-//   <p>If you didn’t request this, ignore this email.</p>
-//   <br/>
-//   <p>— StudyNotion Team</p>
-//   `)
-//   .then(() => console.log("OTP mail sent"))
-//   .catch(err => console.log("Mail error:", err));
+
+
 
 
 //         //return 
@@ -160,7 +149,7 @@ require('dotenv').config();
 // };
 
 
-exports.sendOtp = async (req, res) => {
+export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -195,20 +184,20 @@ exports.sendOtp = async (req, res) => {
     await OTP.create({ email, otp });
 
     // Send mail in background (no await for faster response)
-    mailsender(
-      email,
-      "StudyNotion Email Verification Code",
-      `
-        <h2>Your StudyNotion OTP</h2>
-        <p>Hello 👋</p>
-        <p>Your One-Time Password is:</p>
-        <h1 style="letter-spacing:3px;">${otp}</h1>
-        <p>This OTP is valid for 5 minutes.</p>
-        <p>If you didn’t request this, ignore this email.</p>
-        <br/>
-        <p>— StudyNotion Team</p>
-      `
-    ).catch(err => console.log("Mail error:", err));
+        sendEmail(
+            email,
+            "StudyNotion Email Verification Code",
+            `
+                <h2>Your StudyNotion OTP</h2>
+                <p>Hello 👋</p>
+                <p>Your One-Time Password is:</p>
+                <h1 style="letter-spacing:3px;">${otp}</h1>
+                <p>This OTP is valid for 5 minutes.</p>
+                <p>If you didn’t request this, ignore this email.</p>
+                <br/>
+                <p>— StudyNotion Team</p>
+            `
+        ).catch(err => console.log("Mail error:", err));
 
     return res.status(200).json({
       success: true,
@@ -226,7 +215,7 @@ exports.sendOtp = async (req, res) => {
 
 
 //signup
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
     try {
         //data fetch from request body
 
@@ -308,7 +297,7 @@ exports.signup = async (req, res) => {
 
 
 //exports login
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         //get data from body
         const { email, password } = req.body;
@@ -383,8 +372,7 @@ exports.login = async (req, res) => {
 
 
 
-//change password
-exports.changepassword = async (req, res) => {
+export const changepassword = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
         if (!newPassword) {

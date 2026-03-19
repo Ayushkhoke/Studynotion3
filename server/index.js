@@ -154,30 +154,29 @@
 
 
 // 🔥 VERY IMPORTANT — MUST BE FIRST
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-const express = require("express");
+import express from "express";
 const app = express();
 
-const userRoutes = require("./routes/user");
-const ProfileRoutes = require("./routes/Profile");
-const PaymentRoutes = require("./routes/Payment");
-const CourseRoutes = require("./routes/Course");
-const AIRoutes = require("./routes/AI");
+import userRoutes from "./routes/user.js";
+import ProfileRoutes from "./routes/Profile.js";
+import PaymentRoutes from "./routes/Payment.js";
+import CourseRoutes from "./routes/Course.js";
+import AIRoutes from "./routes/AI.js";
 
-const database = require("./config/database");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const { cloudinaryConnect } = require("./config/cloudinary");
-const fileupload = require("express-fileupload");
-const os = require("os");
+import database from "./config/database.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import { cloudinaryConnect } from "./config/cloudinary.js";
+import fileupload from "express-fileupload";
+import os from "os";
 
 const PORT = process.env.PORT || 4000;
 
-/* ================= DATABASE ================= */
 database.connect();
 
-/* ================= CORS ================= */
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",

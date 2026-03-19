@@ -62,53 +62,51 @@ export default function RenderCartCourses() {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {cart.map((course, index) => (
         <div
           key={course._id}
-          className="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black border border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition"
+          className="bg-white shadow-2xl rounded-2xl p-6 flex flex-col h-full border border-gray-200 hover:border-blue-500 hover:shadow-blue-500/20 transition-all duration-300"
         >
-          {/* Index */}
-          <span className="hidden sm:block text-gray-500 font-bold text-xl">
-            {index + 1}
-          </span>
-
-          {/* Thumbnail */}
           <img
             src={course?.thumbnail}
             alt={course?.courseName}
-            className="w-full sm:w-48 h-48 sm:h-32 rounded-xl object-cover border-2 border-yellow-400"
+            className="w-full h-40 rounded-xl object-cover mb-4 border-2 border-yellow-400"
           />
-
-          {/* Course Info */}
-          <div className="flex-1 flex flex-col gap-2">
-            <h3 className="text-2xl font-bold text-yellow-300">
+          <div className="flex-1 flex flex-col justify-between">
+            <h3 className="text-xl font-bold text-gray-900 mb-1">
               {course?.courseName}
             </h3>
-            <p className="text-base text-gray-200 mt-1">
+            <p className="text-base text-gray-700 mb-1">
               {course?.category?.name || "General"}
             </p>
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mb-2">
               <span className="bg-yellow-500 text-black px-2 py-1 rounded text-xs font-semibold">In Cart</span>
-              <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-semibold">Top Rated</span>
+              <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">Top Rated</span>
               <span className="bg-green-500 text-white px-2 py-1 rounded text-xs font-semibold">Lifetime Access</span>
             </div>
             <div className="mt-2">
               <span className="text-sm text-gray-400">Instructor:</span>
-              <span className="ml-2 text-white font-medium">{course.instructorName || "Expert Instructor"}</span>
+              <span className="ml-2 text-blue-700 font-medium">{course.instructorName || "Expert Instructor"}</span>
             </div>
-            <ul className="mt-2 text-xs text-gray-400 list-disc pl-5">
-              <li>Engaging video lectures and quizzes</li>
-              <li>Community support and mentorship</li>
+            <ul className="mt-2 text-xs text-gray-500 list-disc pl-5">
+              <li>Engaging video lectures & quizzes</li>
+              <li>Community support & mentorship</li>
               <li>Certificate upon completion</li>
+              <li>Money-back Guarantee</li>
+              <li>Secure Payment</li>
             </ul>
-            <p className="text-yellow-400 font-bold text-xl mt-3">
-              ₹ {course?.price}
-            </p>
-            <p className="text-sm text-gray-300 mt-1">Ready to checkout and start learning!</p>
+            <div className="flex items-center mt-3 mb-2">
+              <span className="text-xl font-semibold text-blue-700 mr-2">${course?.price}</span>
+              <span className="text-sm text-gray-400 line-through">${Math.round(course?.price * 1.5)}</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600 text-xs font-semibold mb-2">
+              <span>✔ Trusted by learners in the USA</span>
+            </div>
+            <p className="text-xs text-gray-400 italic mb-2">Rated 4.9/5 by students</p>
             <button
               onClick={() => dispatch(removeFromCart(course._id))}
-              className="flex items-center gap-2 text-red-400 hover:text-red-300 transition mt-3 font-semibold"
+              className="flex items-center gap-2 text-red-500 hover:text-red-700 transition mt-3 font-semibold bg-red-100 px-3 py-2 rounded"
             >
               <MdDelete size={20} />
               <span>Remove</span>
